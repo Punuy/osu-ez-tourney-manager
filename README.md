@@ -1,6 +1,30 @@
-# mania-tourney
+# osu! EZ Tourney Manager
 
-Local control panel and browser overlay for osu!mania tournament broadcasts. It manages tournament data, scene switching, custom HTML/CSS overlays, per-scene media, transitions, osu!tourney IPC, optional tosu data, and optional OBS control.
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Node.js](https://img.shields.io/badge/node-%E2%89%A5%2022-brightgreen.svg)](https://nodejs.org/)
+[![Zero Dependencies](https://img.shields.io/badge/dependencies-0-orange.svg)](#)
+
+**All-in-one tournament overlay & control panel for osu!mania** — designed to replace the osu!lazer tournament client with something lighter, faster, and fully customizable.
+
+> Run one command, open two browser tabs, and you have a complete tournament broadcast system.
+
+<!-- If you have a screenshot, uncomment and replace the path below:
+![Screenshot](https://raw.githubusercontent.com/Punuy/osu-ez-tourney-manager/main/docs/screenshot.png)
+-->
+
+## ✨ Features
+
+- 🎮 **Live scene switching** — Gameplay, Map Pool, Pick/Ban, Standby, Win, Showcase, and more
+- 🎨 **Custom HTML/CSS overlays** — full creative control per scene with live preview editor
+- 🖼️ **Per-scene media** — images, GIFs, or looping videos as backgrounds with dim control
+- 🎬 **Scene transitions** — cross-fade or custom transition videos between scenes
+- 📡 **osu!tourney IPC** — reads match state, scores, and beatmaps from osu!stable
+- 📊 **tosu integration** — player accuracy, combo, HP, and multiplayer chat (optional)
+- 🎥 **OBS WebSocket sync** — automatically switch OBS scenes from the panel (optional)
+- 💬 **Bancho IRC** — send lobby commands and auto-set maps on pick (optional)
+- 🔌 **Local REST API** — integrate with Stream Deck or any local automation
+- 📦 **Zero npm dependencies** — just Node.js, no install step needed
+- 📋 **osu!lazer bracket import** — compatible `bracket.json` format
 
 ## Requirements
 
@@ -132,3 +156,7 @@ GET  /api/export
 ```
 
 `/api/events` is a Server-Sent Events stream used by the panel and overlay.
+
+## License
+
+[MIT](LICENSE) © Punuy
