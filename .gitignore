@@ -1,14 +1,35 @@
-# Dependencies and local tooling
+# Dependencies
 node_modules/
-.claude/
+package-lock.json
 
-# Runtime state and operator media
+# Runtime data & user-uploaded media
 data/
 
-# Local scratch files
-New Text Document.txt
+# Design prototypes (local reference only)
+design/
+
+# AI / editor tooling
+.claude/
+.gemini/
+.cursor/
+.vscode/
+.idea/
+
+# Test & scratch files
+test-*.mjs
+test-*.js
 STATUS.csv
+New Text Document.txt
 
 # Logs
 *.log
 npm-debug.log*
+
+# OS generated
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Environment / secrets
+.env
+.env.*
