@@ -1,0 +1,379 @@
+/* Overlay theme. Every colour here comes from data/theme.json via CSS custom
+   properties, so the panel's theme editor restyles the whole broadcast live. */
+
+:root {
+  --c-red: #e05261;
+  --c-blue: #4a9de0;
+  --c-accent: #ffcc22;
+  --c-bg: #1a1a20;
+  --c-panel: rgba(20, 20, 26, 0.86);
+  --c-text: #ffffff;
+  --c-dim: #a0a0ac;
+  --chroma: #00ff00;
+  --font: 'Torus', 'IBM Plex Sans Thai', 'Segoe UI', sans-serif;
+  --stage-w: 1920px;
+  --stage-h: 1080px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: transparent;
+  font-family: var(--font);
+  color: var(--c-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* The overlay is authored at a fixed 1920x1080 and scaled to whatever size the
+   OBS browser source happens to be, so nothing reflows on a different canvas. */
+#stage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--stage-w);
+  height: var(--stage-h);
+  transform-origin: center;
+  overflow: hidden;
+}
+
+.scene {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .35s ease;
+}
+.scene.active { opacity: 1; z-index: 2; }
+/* Cross-dissolve: the outgoing scene holds, then fades out beneath the incoming
+   one, so the cut never dips through black. */
+.scene.leaving { opacity: 0; z-index: 1; transition: opacity .35s ease .18s; }
+/* Pinned (panel preview pane): switch instantly, no cross-fade. */
+body.pinned .scene { transition: none; }
+body.custom-preview .scene::before { display: none; }
+
+/* Optional operator-uploaded transition video. It lives above the outgoing and
+   incoming scene, so the new scene can already be ready when the clip ends. */
+#scene-transition {
+  position: absolute; inset: 0; z-index: 20;
+  width: 100%; height: 100%; object-fit: cover;
+  opacity: 0; pointer-events: none;
+  transition: opacity .12s ease;
+}
+#scene-transition.playing { opacity: 1; }
+
+/* Faint depth for every scene. Tints only - NEVER an opaque fill: this page is a
+   transparent browser source, and the gameplay scene needs to stay see-through so
+   the osu!tourney windows behind it show. Scenes that need a dark base use veil(). */
+.scene::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 85% at 50% -15%, rgba(255, 204, 34, .07), transparent 55%),
+    radial-gradient(95% 70% at 50% 115%, rgba(74, 157, 224, .06), transparent 60%);
+  display: none;
+}
+
+.bg-media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.bg-custom {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.bg-custom > * { position: relative; width: 100%; height: 100%; }
+/* Operator-controlled dim, on top of the media and under everything else. */
+.bg-dim { position: absolute; inset: 0; background: #000; }
+
+.veil { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,10,14,.92), rgba(10,10,14,.75)); }
+/* With a background behind it the scrim only has to protect the text. */
+.veil.over-bg { background: linear-gradient(180deg, rgba(10,10,14,.72) 0%, rgba(10,10,14,.42) 40%, rgba(10,10,14,.72) 100%); }
+
+/* ---------- shared chrome ---------- */
+.header {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 108px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+  background: linear-gradient(180deg, rgba(10, 10, 14, .97), rgba(10, 10, 14, .58));
+  border-bottom: 2px solid var(--c-accent);
+  box-shadow: 0 10px 34px rgba(0, 0, 0, .55);
+}
+.header .tournament-name { font-size: 35px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; }
+/* Solid accent chip: the round has to read instantly at stream bitrate. */
+.header .round-name {
+  font-size: 17px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase;
+  color: #14141a; background: var(--c-accent);
+  padding: 6px 18px; border-radius: 4px;
+}
+.header .logo { height: 72px; }
+
+.team-name { font-size: 40px; font-weight: 800; letter-spacing: .01em; }
+.team-flag { height: 46px; border-radius: 3px; box-shadow: 0 2px 8px rgba(0,0,0,.5); }
+/* Avatars are square sources; keep them round and never stretched. */
+.team-flag.as-avatar { aspect-ratio: 1; width: auto; object-fit: cover; border-radius: 50%; }
+.team-seed { font-size: 15px; color: var(--c-dim); letter-spacing: .12em; text-transform: uppercase; }
+
+/* ---------- gameplay ---------- */
+.gp-top {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 126px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  background: linear-gradient(180deg, rgba(8, 8, 12, .96) 60%, rgba(8, 8, 12, 0));
+  padding: 0 60px;
+}
+.gp-team { display: flex; align-items: center; gap: 22px; }
+.gp-team.right { flex-direction: row-reverse; }
+.gp-team .meta { display: flex; flex-direction: column; gap: 4px; }
+.gp-team.right .meta { align-items: flex-end; }
+.gp-centre { display: flex; flex-direction: column; align-items: center; gap: 6px; min-width: 340px; }
+.gp-centre .round { font-size: 17px; letter-spacing: .22em; color: var(--c-accent); text-transform: uppercase; }
+.gp-centre .best-of { font-size: 14px; letter-spacing: .16em; color: var(--c-dim); }
+
+/* One pip per point needed to win the match. */
+.stars { display: flex; gap: 9px; align-items: center; }
+.stars.right { flex-direction: row-reverse; }
+.star {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .16);
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .22);
+  transition: background .25s ease, box-shadow .25s ease;
+}
+.star.on.red { background: var(--c-red); box-shadow: 0 0 14px var(--c-red); }
+.star.on.blue { background: var(--c-blue); box-shadow: 0 0 14px var(--c-blue); }
+
+/* Score difference bar, like the lazer gameplay screen. */
+.diff-bar {
+  position: absolute;
+  top: 128px; left: 50%;
+  transform: translateX(-50%);
+  width: 820px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.diff-track { position: relative; width: 100%; height: 8px; background: rgba(255,255,255,.12); border-radius: 4px; overflow: hidden; }
+.diff-fill { position: absolute; top: 0; bottom: 0; left: 50%; transition: width .18s linear, transform .18s linear; }
+.diff-fill.red { background: var(--c-red); transform: translateX(-100%); }
+.diff-fill.blue { background: var(--c-blue); }
+.diff-label { font-size: 30px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.diff-scores { display: flex; justify-content: space-between; width: 100%; font-size: 22px; font-variant-numeric: tabular-nums; color: var(--c-dim); }
+
+/* Green area OBS keys out; the osu!tourney spectator windows sit here. */
+#chroma-area {
+  position: absolute;
+  top: 164px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--chroma);
+}
+
+/* Live per-player rows (needs tosu). */
+.players { position: absolute; bottom: 164px; left: 0; right: 0; display: flex; justify-content: space-between; padding: 0 40px; pointer-events: none; }
+.player-col { display: flex; flex-direction: column; gap: 6px; width: 420px; }
+.player-col.right { align-items: flex-end; }
+.player-row {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--c-panel);
+  border-left: 4px solid var(--c-red);
+  padding: 7px 14px;
+  border-radius: 4px;
+  width: 100%;
+}
+.player-col.right .player-row { flex-direction: row-reverse; border-left: none; border-right: 4px solid var(--c-blue); }
+.player-row .pname { font-size: 17px; font-weight: 600; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.player-row .pstat { font-size: 15px; font-variant-numeric: tabular-nums; color: var(--c-dim); min-width: 74px; text-align: right; }
+.player-row .pscore { font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; min-width: 96px; text-align: right; }
+.player-row .avatar { width: 30px; height: 30px; border-radius: 50%; }
+.player-row.failed { opacity: .45; }
+.hp { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: rgba(255,255,255,.1); }
+.hp > i { display: block; height: 100%; background: var(--c-accent); }
+
+/* Song bar shared by gameplay / showcase / map pool footer. */
+.song-bar {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 126px;
+  display: grid;
+  grid-template-columns: 226px 1fr auto;
+  align-items: center;
+  gap: 28px;
+  padding: 0 46px;
+  background: linear-gradient(0deg, rgba(8, 8, 12, .97) 60%, rgba(8, 8, 12, 0));
+}
+.song-bar .cover { width: 186px; height: 105px; object-fit: cover; border-radius: 6px; box-shadow: 0 6px 22px rgba(0,0,0,.6); }
+.song-bar .title { font-size: 28px; font-weight: 700; line-height: 1.15; }
+.song-bar .artist { font-size: 18px; color: var(--c-dim); }
+.song-bar .diffline { font-size: 18px; color: var(--c-accent); margin-top: 6px; }
+.song-bar .stats { display: flex; gap: 26px; }
+.song-bar .stat { text-align: center; }
+.song-bar .stat b { display: block; font-size: 26px; font-variant-numeric: tabular-nums; }
+.song-bar .stat span { font-size: 13px; letter-spacing: .14em; color: var(--c-dim); text-transform: uppercase; }
+
+.badge {
+  position: absolute; top: 106px; left: 50%; transform: translateX(-50%);
+  background: var(--c-accent); color: #1a1a20;
+  font-size: 15px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase;
+  padding: 4px 20px; border-radius: 3px;
+}
+
+/* In-game #multiplayer chat, relayed by tosu. */
+.chat {
+  position: absolute; left: 40px; bottom: 148px;
+  width: 460px; max-height: 380px;
+  display: flex; flex-direction: column; justify-content: flex-end; gap: 4px;
+  overflow: hidden;
+}
+.chat .msg { background: var(--c-panel); border-radius: 4px; padding: 5px 10px; font-size: 15px; line-height: 1.35; }
+.chat .msg b { color: var(--c-accent); }
+.chat .msg.red b { color: var(--c-red); }
+.chat .msg.blue b { color: var(--c-blue); }
+
+/* ---------- map pool ---------- */
+.pool { position: absolute; inset: 140px 70px 56px; display: flex; flex-direction: column; gap: 20px; justify-content: center; }
+.pool-head { display: flex; justify-content: space-between; align-items: center; }
+.pool-legend { display: flex; gap: 22px; font-size: 15px; letter-spacing: .12em; text-transform: uppercase; color: var(--c-dim); }
+.pool-legend i { display: inline-block; width: 12px; height: 12px; border-radius: 2px; margin-right: 7px; }
+.mod-group { display: flex; gap: 18px; align-items: center; margin-bottom: 14px; }
+.mod-tag {
+  width: 76px; flex: none; text-align: center;
+  font-size: 23px; font-weight: 800; letter-spacing: .04em;
+  padding: 13px 0; border-radius: 6px;
+  color: #14141a;
+  background: rgba(255, 255, 255, .1);
+}
+.mod-tag.NM { background: #7997d4; } .mod-tag.HD { background: #d4b979; }
+.mod-tag.HR { background: #d47979; } .mod-tag.DT { background: #9d79d4; }
+.mod-tag.FM { background: #79d497; } .mod-tag.TB { background: #d479c0; }
+.mod-tag.EZ { background: #79d4c8; } .mod-tag.FL { background: #555a7a; }
+.mod-maps { display: grid; grid-template-columns: repeat(auto-fill, minmax(430px, 1fr)); gap: 14px; flex: 1; }
+
+.map-card {
+  position: relative;
+  height: 122px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #23232c;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, .45);
+  transition: transform .2s ease, filter .2s ease;
+}
+.map-card .cover { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .62; }
+.map-card .info { position: absolute; inset: 0; padding: 11px 14px; display: flex; flex-direction: column; justify-content: center; background: linear-gradient(90deg, rgba(15,15,20,.92), rgba(15,15,20,.55)); }
+.map-card .m-title { font-size: 22px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.map-card .m-artist { font-size: 15px; color: var(--c-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.map-card .m-diff { font-size: 16px; color: var(--c-accent); margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.map-card .m-slot { position: absolute; top: 10px; right: 14px; font-size: 15px; font-weight: 800; color: rgba(255,255,255,.65); }
+
+.map-card.picked-red { box-shadow: 0 0 0 4px var(--c-red), 0 3px 12px rgba(0,0,0,.5); }
+.map-card.picked-blue { box-shadow: 0 0 0 4px var(--c-blue), 0 3px 12px rgba(0,0,0,.5); }
+.map-card.banned { filter: grayscale(1) brightness(.45); }
+.map-card .ban-x {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 62px; font-weight: 900; line-height: 1;
+}
+.map-card.ban-red .ban-x { color: var(--c-red); }
+.map-card.ban-blue .ban-x { color: var(--c-blue); }
+.map-card .protect-ring { position: absolute; inset: 0; box-shadow: inset 0 0 0 4px var(--c-accent); border-radius: 6px; }
+
+/* ---------- team intro / win ---------- */
+.vs { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 108px 100px 70px; gap: 46px; }
+.vs-team { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+.vs-team .team-flag { height: 134px; box-shadow: 0 10px 34px rgba(0, 0, 0, .6); }
+.vs-team .team-name { font-size: 64px; text-align: center; line-height: 1.1; }
+.vs-mid { font-size: 112px; font-weight: 900; color: var(--c-accent); opacity: .9; text-shadow: 0 0 70px rgba(255, 204, 34, .35); }
+.roster { display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 520px; }
+.roster .p { display: flex; align-items: center; gap: 14px; background: var(--c-panel); border-radius: 6px; padding: 10px 18px; }
+.roster .p img { width: 40px; height: 40px; border-radius: 50%; }
+.roster .p .n { flex: 1; font-size: 22px; font-weight: 600; }
+.roster .p .r { font-size: 17px; color: var(--c-dim); font-variant-numeric: tabular-nums; }
+.roster .p.captain .n::after { content: ' ★'; color: var(--c-accent); }
+
+.winner { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px; }
+.winner .label { font-size: 30px; letter-spacing: .46em; text-transform: uppercase; color: var(--c-accent); }
+.winner .team-flag { height: 176px; box-shadow: 0 14px 46px rgba(0, 0, 0, .65); }
+.winner .team-name { font-size: 108px; text-shadow: 0 0 80px currentColor; }
+.winner .final { font-size: 52px; font-variant-numeric: tabular-nums; color: var(--c-dim); letter-spacing: .1em; }
+
+/* ---------- bracket / schedule / seeding ---------- */
+.ladder { position: absolute; inset: 120px 40px 40px; overflow: hidden; }
+.ladder-inner { position: relative; width: 100%; height: 100%; }
+.lm {
+  position: absolute; width: 300px;
+  background: var(--c-panel); border-radius: 6px; overflow: hidden;
+  box-shadow: 0 3px 12px rgba(0,0,0,.4);
+}
+.lm.current { box-shadow: 0 0 0 3px var(--c-accent), 0 3px 12px rgba(0,0,0,.4); }
+.lm .row { display: flex; justify-content: space-between; align-items: center; padding: 7px 12px; font-size: 17px; }
+.lm .row + .row { border-top: 1px solid rgba(255,255,255,.08); }
+.lm .row.win { background: rgba(255, 204, 34, .16); font-weight: 700; }
+.lm .row .sc { font-variant-numeric: tabular-nums; color: var(--c-accent); }
+.lm .round-tag { background: rgba(255,255,255,.08); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; padding: 3px 12px; color: var(--c-dim); }
+
+.list { position: absolute; inset: 130px 120px 60px; display: flex; flex-direction: column; gap: 12px; overflow: hidden; }
+.list-row {
+  display: grid; grid-template-columns: 150px 1fr 80px 1fr 190px;
+  align-items: center; gap: 18px;
+  background: var(--c-panel); border-radius: 6px; padding: 13px 22px; font-size: 22px;
+}
+.list-row.current { box-shadow: 0 0 0 3px var(--c-accent); }
+.list-row .when { color: var(--c-accent); font-size: 18px; letter-spacing: .06em; }
+.list-row .t1 { text-align: right; font-weight: 600; }
+.list-row .t2 { font-weight: 600; }
+.list-row .vs-sm { text-align: center; color: var(--c-dim); font-variant-numeric: tabular-nums; }
+.list-row .round-of { text-align: right; font-size: 16px; color: var(--c-dim); letter-spacing: .12em; text-transform: uppercase; }
+
+.seeding { position: absolute; inset: 130px 90px 60px; display: flex; flex-direction: column; gap: 14px; }
+.seed-block { background: var(--c-panel); border-radius: 6px; padding: 16px 22px; }
+.seed-block h3 { font-size: 22px; margin-bottom: 8px; color: var(--c-accent); }
+.seed-line { display: grid; grid-template-columns: 1fr 110px 110px 90px; font-size: 18px; padding: 4px 0; border-top: 1px solid rgba(255,255,255,.07); }
+
+/* ---------- drawings ---------- */
+.drawings { position: absolute; inset: 130px 90px 60px; display: flex; flex-direction: column; gap: 24px; }
+.draw-groups { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.draw-group { background: var(--c-panel); border-radius: 6px; padding: 16px; }
+.draw-group h4 { font-size: 20px; color: var(--c-accent); letter-spacing: .18em; margin-bottom: 10px; }
+.draw-group .t { display: flex; align-items: center; gap: 10px; font-size: 18px; padding: 5px 0; }
+.draw-group .t img { height: 22px; border-radius: 2px; }
+.draw-current { display: flex; align-items: center; justify-content: center; gap: 20px; font-size: 46px; font-weight: 800; min-height: 90px; }
+.draw-current img { height: 60px; border-radius: 4px; }
+
+/* ---------- standby ---------- */
+.standby { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px; }
+.standby .logo { max-height: 260px; max-width: 700px; margin-bottom: 6px; }
+.standby .name { font-size: 23px; font-weight: 700; letter-spacing: .44em; text-transform: uppercase; color: var(--c-accent); }
+.standby .rule { width: 190px; height: 3px; border-radius: 2px; background: var(--c-accent); opacity: .85; }
+.standby .msg { font-size: 74px; font-weight: 800; letter-spacing: .04em; text-align: center; max-width: 1400px; }
+.standby .countdown { font-size: 112px; font-weight: 900; font-variant-numeric: tabular-nums; color: var(--c-accent); line-height: 1; }
+
+/* ---------- showcase ---------- */
+.showcase { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.showcase .card { width: 1280px; background: var(--c-panel); border-radius: 10px; overflow: hidden; box-shadow: 0 12px 50px rgba(0,0,0,.6); }
+.showcase .banner { position: relative; height: 340px; }
+.showcase .banner img { width: 100%; height: 100%; object-fit: cover; }
+.showcase .banner .grad { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(20,20,26,1), transparent 70%); }
+.showcase .body { padding: 8px 44px 40px; }
+.showcase .body .t { font-size: 52px; font-weight: 800; }
+.showcase .body .a { font-size: 28px; color: var(--c-dim); }
+.showcase .body .d { font-size: 24px; color: var(--c-accent); margin-top: 10px; }
+.showcase .body .stats { display: flex; gap: 46px; margin-top: 22px; }
+
+.hidden { display: none !important; }

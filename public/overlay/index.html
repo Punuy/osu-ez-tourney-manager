@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>mania-tourney overlay</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&family=Prompt:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="overlay.css">
+</head>
+<body>
+  <div id="stage">
+    <div class="scene" data-scene="gameplay"></div>
+    <div class="scene" data-scene="mappool"></div>
+    <div class="scene" data-scene="teamintro"></div>
+    <div class="scene" data-scene="seeding"></div>
+    <div class="scene" data-scene="bracket"></div>
+    <div class="scene" data-scene="schedule"></div>
+    <div class="scene" data-scene="showcase"></div>
+    <div class="scene" data-scene="win"></div>
+    <div class="scene" data-scene="drawings"></div>
+    <div class="scene" data-scene="standby"></div>
+    <video id="scene-transition" muted playsinline></video>
+  </div>
+  <script type="module" src="overlay.js"></script>
+</body>
+</html>

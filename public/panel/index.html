@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>osu!eztm · control panel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="panel.css">
+</head>
+<body>
+  <aside class="rail">
+    <div class="brand">
+      <div class="word"><b>osu!eztm</b><span>osu easy tourney manager</span></div>
+    </div>
+
+    <nav class="nav" id="nav"></nav>
+
+    <div class="rail-foot">
+      <div class="stat-line"><i class="dot" id="dot-ipc"></i><span class="name">osu!tourney</span><span class="val" id="ipc-state">—</span></div>
+      <div class="stat-line"><i class="dot" id="dot-tosu"></i><span class="name">tosu</span><span class="val" id="tosu-info">—</span></div>
+      <div class="stat-line"><i class="dot" id="dot-obs"></i><span class="name">OBS</span><span class="val" id="obs-info">—</span></div>
+      <div class="stat-line"><i class="dot" id="dot-irc"></i><span class="name">ห้องแข่ง</span><span class="val" id="irc-info">—</span></div>
+    </div>
+  </aside>
+
+  <main>
+    <section class="page active" data-page="live"></section>
+    <section class="page" data-page="backgrounds"></section>
+    <section class="page" data-page="teams"></section>
+    <section class="page" data-page="rounds"></section>
+    <section class="page" data-page="matches"></section>
+    <section class="page" data-page="osucfg"></section>
+    <section class="page" data-page="settings"></section>
+  </main>
+
+  <div class="toast" id="toast"></div>
+  <script type="module" src="panel.js"></script>
+</body>
+</html>

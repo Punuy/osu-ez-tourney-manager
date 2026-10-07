@@ -1,0 +1,14 @@
+# Dependencies and local tooling
+node_modules/
+.claude/
+
+# Runtime state and operator media
+data/
+
+# Local scratch files
+New Text Document.txt
+STATUS.csv
+
+# Logs
+*.log
+npm-debug.log*

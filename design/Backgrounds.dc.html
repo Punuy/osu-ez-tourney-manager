@@ -1,0 +1,344 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: 'IBM Plex Sans Thai', 'Segoe UI', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: #ffcc22; } a:hover { color: #ffd95c; }
+    .nav-item:hover { background: #1a1a22; color: #ececf2; }
+    .row:hover { border-color: #4a4a5c; }
+    .btn:hover { background: #2f2f3c; }
+    .drop:hover { border-color: #ffcc22; background: #201d16; }
+    .num { font-variant-numeric: tabular-nums; }
+    .slider { -webkit-appearance: none; appearance: none; width: 100%; height: 5px; border-radius: 3px; background: #32323f; outline: none; margin: 0; cursor: pointer; }
+    .slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 16px; height: 16px; border-radius: 50%; background: #ececf2; border: 3px solid #14141a; box-shadow: 0 0 0 1px #4a4a5c; cursor: pointer; }
+    .slider::-moz-range-thumb { width: 16px; height: 16px; border-radius: 50%; background: #ececf2; border: 3px solid #14141a; box-shadow: 0 0 0 1px #4a4a5c; cursor: pointer; }
+  </style>
+</helmet>
+
+<div style="display: flex; width: 1440px; height: 920px; background: #14141a; color: #ececf2; font-size: 14px; line-height: 1.5;">
+
+  <!-- ═══ rail ═══ -->
+  <aside style="width: 216px; flex: none; background: #0f0f14; border-right: 1px solid #24242f; display: flex; flex-direction: column; padding: 20px 12px;">
+    <div style="display: flex; align-items: center; gap: 11px; padding: 2px 8px 22px;">
+      <svg width="26" height="24" viewBox="0 0 26 24" fill="none" style="flex: none;">
+        <rect x="2" y="3" width="4" height="8" rx="1.2" fill="#ececf2"/>
+        <rect x="8" y="8" width="4" height="5" rx="1.2" fill="#5c5c6e"/>
+        <rect x="14" y="1" width="4" height="10" rx="1.2" fill="#5c5c6e"/>
+        <rect x="20" y="6" width="4" height="7" rx="1.2" fill="#ececf2"/>
+        <rect x="1" y="17" width="24" height="3" rx="1.5" fill="{{accent}}"/>
+      </svg>
+      <div style="line-height: 1.05;">
+        <div style="font-size: 15px; font-weight: 700; letter-spacing: .14em;">MANIA</div>
+        <div style="font-size: 9px; font-weight: 600; letter-spacing: .30em; color: #6f6f80; margin-top: 3px;">TOURNEY</div>
+      </div>
+    </div>
+
+    <nav style="display: flex; flex-direction: column; gap: 2px;">
+      <div class="nav-item" style="display: flex; align-items: center; gap: 11px; padding: 9px 10px; border-radius: 7px; color: #8a8a9c;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3.2" fill="currentColor"/><path d="M5.5 5.5a9 9 0 0 0 0 13M18.5 5.5a9 9 0 0 1 0 13" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        <span>Live</span>
+      </div>
+      <div class="nav-item" style="display: flex; align-items: center; gap: 11px; padding: 9px 10px; border-radius: 7px; color: #8a8a9c;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="9" r="3.2" stroke="currentColor" stroke-width="1.7"/><path d="M3 19.5c0-3 2.7-4.8 6-4.8s6 1.8 6 4.8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M16.5 7.5a3 3 0 0 1 0 6M18 19.5c0-2-.7-3.4-2-4.3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        <span>Teams</span>
+      </div>
+      <div class="nav-item" style="display: flex; align-items: center; gap: 11px; padding: 9px 10px; border-radius: 7px; color: #8a8a9c;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="16" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="M3 9h18M9 9v11" stroke="currentColor" stroke-width="1.7"/></svg>
+        <span>Rounds &amp; Pool</span>
+      </div>
+      <div class="nav-item" style="display: flex; align-items: center; gap: 11px; padding: 9px 10px; border-radius: 7px; color: #8a8a9c;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M4 6h6v5H4zM4 13h6v5H4zM14 9h6v6h-6z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M10 8.5h2v7h2" stroke="currentColor" stroke-width="1.7"/></svg>
+        <span>Matches</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 11px; padding: 9px 10px; border-radius: 7px; background: #24242f; color: #ececf2; font-weight: 600; box-shadow: inset 2px 0 0 {{accent}};">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="M3 15.5l4.5-4 3.5 3 3.5-4 6.5 6" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="8.5" cy="9.5" r="1.4" fill="currentColor"/></svg>
+        <span>Backgrounds</span>
+        <span style="margin-left: auto; font-size: 10px; font-weight: 700; letter-spacing: .06em; color: #14141a; background: {{accent}}; border-radius: 4px; padding: 1px 5px;">NEW</span>
+      </div>
+      <div class="nav-item" style="display: flex; align-items: center; gap: 11px; padding: 9px 10px; border-radius: 7px; color: #8a8a9c;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 9 9c0-1-1-1.2-1.8-.7-1.6 1-3.7-.2-3.4-2 .2-1 1.3-1.6 2.3-1.4.9.2 1.5-.8 1-1.6A9 9 0 0 0 12 3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="8.5" cy="10" r="1.2" fill="currentColor"/><circle cx="12" cy="7.5" r="1.2" fill="currentColor"/></svg>
+        <span>Theme</span>
+      </div>
+      <div class="nav-item" style="display: flex; align-items: center; gap: 11px; padding: 9px 10px; border-radius: 7px; color: #8a8a9c;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.7"/><path d="M12 2.8v2.4M12 18.8v2.4M21.2 12h-2.4M5.2 12H2.8M18.5 5.5l-1.7 1.7M7.2 16.8l-1.7 1.7M18.5 18.5l-1.7-1.7M7.2 7.2 5.5 5.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        <span>Settings</span>
+      </div>
+    </nav>
+
+    <div style="margin-top: auto; border-top: 1px solid #24242f; padding: 14px 10px 0; display: flex; flex-direction: column; gap: 9px;">
+      <div style="display: flex; align-items: center; gap: 9px; font-size: 12px; color: #8a8a9c;">
+        <span style="width: 7px; height: 7px; border-radius: 50%; background: #4bc07a; box-shadow: 0 0 7px #4bc07a;"></span>
+        <span style="flex: 1;">osu!tourney</span>
+        <span style="color: #ececf2; font-weight: 600;">Playing</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 9px; font-size: 12px; color: #8a8a9c;">
+        <span style="width: 7px; height: 7px; border-radius: 50%; background: #4bc07a; box-shadow: 0 0 7px #4bc07a;"></span>
+        <span style="flex: 1;">tosu</span>
+        <span style="color: #6f6f80;">2 clients</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 9px; font-size: 12px; color: #8a8a9c;">
+        <span style="width: 7px; height: 7px; border-radius: 50%; background: #3a3a48;"></span>
+        <span style="flex: 1;">OBS</span>
+        <span style="color: #6f6f80;">ปิดอยู่</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ═══ content ═══ -->
+  <main style="flex: 1; min-width: 0; padding: 20px 24px 24px; display: flex; flex-direction: column; gap: 16px; overflow: hidden;">
+
+    <header>
+      <h1 style="font-size: 21px; font-weight: 700; margin: 0 0 3px;">พื้นหลังของแต่ละ scene</h1>
+      <p style="font-size: 13px; color: #8a8a9c; margin: 0;">
+        ใส่ภาพหรือวิดีโอให้แต่ละ scene แยกกันได้ — ไฟล์จะถูกเก็บไว้ที่ <code style="background: #24242f; padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, Consolas, monospace; font-size: 12px;">data/videos/</code> แล้ว overlay ดึงไปใช้ทันที ไม่ต้องรีสตาร์ท
+      </p>
+    </header>
+
+    <div style="display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 16px; flex: 1; min-height: 0;">
+
+      <!-- scene list -->
+      <section style="background: #1c1c25; border: 1px solid #2a2a36; border-radius: 10px; padding: 16px 18px; display: flex; flex-direction: column; gap: 12px; min-height: 0;">
+
+        <div class="drop" onClick="{{dropAdd}}" style="border: 1.5px dashed #3a3a48; border-radius: 9px; padding: 16px; display: flex; align-items: center; gap: 14px; cursor: pointer; background: #1a1a22;">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" style="flex: none;">
+            <path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5" stroke="{{accent}}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M3.5 15v3.5A1.5 1.5 0 0 0 5 20h14a1.5 1.5 0 0 0 1.5-1.5V15" stroke="{{accent}}" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+          <div style="flex: 1;">
+            <div style="font-size: 14px; font-weight: 600;">ลากไฟล์มาวางที่นี่ หรือคลิกเพื่อเลือก</div>
+            <div style="font-size: 12px; color: #6f6f80;">MP4 · WEBM · PNG · JPG — แนะนำ 1920×1080, วิดีโอควรตัดให้ลูปเนียนและไม่มีเสียง</div>
+          </div>
+          <span style="font-size: 12px; color: #5c5c6e; border: 1px solid #32323f; border-radius: 6px; padding: 6px 11px;">เลือกไฟล์…</span>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <h2 style="font-size: 12px; font-weight: 700; letter-spacing: .16em; color: #8a8a9c; margin: 0;">10 SCENE</h2>
+          <span style="font-size: 12px; color: #5c5c6e;">{{filledCount}} มีพื้นหลังแล้ว</span>
+          <div style="margin-left: auto; display: flex; align-items: center; gap: 9px;">
+            <span class="num" style="font-size: 12px; color: #6f6f80;">{{usedMb}} MB</span>
+            <div style="width: 72px; height: 4px; background: #24242f; border-radius: 2px; overflow: hidden;">
+              <div style="width: {{usedPct}}; height: 100%; background: {{accent}};"></div>
+            </div>
+            <button class="btn" onClick="{{clearAll}}" style="padding: 5px 11px; background: #24242f; color: #8a8a9c; border: 1px solid #32323f; border-radius: 6px; font-size: 12px; font-family: inherit; cursor: pointer;">ล้างทั้งหมด</button>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 6px; overflow-y: auto;">
+          <sc-for list="{{scenes}}" as="sc" hint-placeholder-count="10">
+            <div class="row" onClick="{{sc.select}}" style="display: flex; align-items: center; gap: 12px; background: {{sc.bg}}; border: 1px solid {{sc.bc}}; border-radius: 8px; padding: 6px 10px; cursor: pointer;">
+
+              <div style="width: 68px; height: 38px; border-radius: 5px; flex: none; background: {{sc.thumb}}; border: 1px solid {{sc.thumbBorder}}; display: flex; align-items: center; justify-content: center;">
+                <sc-if value="{{sc.empty}}" hint-placeholder-val="true">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 5.5v13M5.5 12h13" stroke="#4a4a5c" stroke-width="2" stroke-linecap="round"/></svg>
+                </sc-if>
+                <sc-if value="{{sc.isVideo}}" hint-placeholder-val="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 7.5l8 4.5-8 4.5z" fill="#ffffff" opacity=".85"/></svg>
+                </sc-if>
+              </div>
+
+              <div style="flex: 1; min-width: 0;">
+                <div style="font-size: 13px; font-weight: 600;">{{sc.name}} <span style="color: #5c5c6e; font-weight: 400;">· {{sc.th}}</span></div>
+                <div style="font-size: 11px; color: {{sc.fileFg}}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{sc.file}}</div>
+              </div>
+
+              <button class="btn" onClick="{{sc.add}}" style="padding: 5px 11px; background: #24242f; color: #ececf2; border: 1px solid #32323f; border-radius: 6px; font-size: 12px; font-family: inherit; cursor: pointer; flex: none;">{{sc.addLabel}}</button>
+              <button class="btn" onClick="{{sc.remove}}" style="width: 28px; height: 28px; background: #24242f; color: {{sc.removeFg}}; border: 1px solid #32323f; border-radius: 6px; font-size: 13px; font-family: inherit; cursor: pointer; flex: none; padding: 0;">✕</button>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <!-- preview -->
+      <aside style="background: #1c1c25; border: 1px solid #2a2a36; border-radius: 10px; padding: 16px 18px; display: flex; flex-direction: column; gap: 14px;">
+        <div style="display: flex; align-items: baseline; gap: 8px;">
+          <h2 style="font-size: 12px; font-weight: 700; letter-spacing: .16em; color: #8a8a9c; margin: 0;">พรีวิว</h2>
+          <span style="font-size: 12px; color: {{accent}};">{{sel.name}}</span>
+        </div>
+
+        <!-- 16:9 preview with the overlay mocked on top -->
+        <div style="position: relative; width: 100%; aspect-ratio: 16 / 9; border-radius: 8px; overflow: hidden; background: {{sel.thumb}}; background-size: {{sel.bgSize}}; background-position: center; background-repeat: no-repeat; border: 1px solid #32323f;">
+          <div style="position: absolute; inset: 0; background: #0a0a0e; opacity: {{dimValue}};"></div>
+          <div style="position: absolute; left: 0; right: 0; top: 0; height: 26%; background: linear-gradient(180deg, rgba(8,8,12,.9), transparent); display: flex; align-items: flex-start; justify-content: space-between; padding: 9px 12px;">
+            <span style="font-size: 11px; font-weight: 700; color: #e05261;">BKK</span>
+            <span style="font-size: 9px; letter-spacing: .16em; color: {{accent}};">QUARTERFINALS</span>
+            <span style="font-size: 11px; font-weight: 700; color: #4a9de0;">CNX</span>
+          </div>
+          <div style="position: absolute; left: 0; right: 0; bottom: 0; height: 22%; background: linear-gradient(0deg, rgba(8,8,12,.92), transparent);"></div>
+          <sc-if value="{{sel.empty}}" hint-placeholder-val="true">
+            <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #5c5c6e;">ยังไม่มีพื้นหลัง — ใช้สีพื้นจากธีม</div>
+          </sc-if>
+        </div>
+
+        <div style="font-size: 12px; color: #6f6f80; display: flex; justify-content: space-between;">
+          <span>{{sel.file}}</span>
+          <span class="num">{{sel.size}} · {{sel.fitLabel}}</span>
+        </div>
+
+        <div>
+          <div style="display: flex; align-items: baseline; margin-bottom: 9px;">
+            <span style="font-size: 11px; letter-spacing: .1em; color: #8a8a9c;">หรี่แสงพื้นหลัง</span>
+            <span class="num" style="margin-left: auto; font-size: 13px; font-weight: 600; color: {{accent}};">{{dimPct}}</span>
+          </div>
+          <input class="slider" type="range" min="0" max="100" step="1" value="{{dim}}" onChange="{{setDim}}">
+          <div style="display: flex; justify-content: space-between; font-size: 10px; color: #5c5c6e; margin-top: 5px;">
+            <span>สว่างเต็มที่</span>
+            <span>มืดสนิท</span>
+          </div>
+        </div>
+
+        <div>
+          <div style="font-size: 11px; letter-spacing: .1em; color: #8a8a9c; margin-bottom: 7px;">การจัดวาง</div>
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 5px;">
+            <button onClick="{{fit.cover}}" style="padding: 7px 0; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; font-family: inherit; background: {{fit.c.bg}}; color: {{fit.c.fg}}; border: 1px solid {{fit.c.bc}};">เต็มจอ (crop)</button>
+            <button onClick="{{fit.contain}}" style="padding: 7px 0; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; font-family: inherit; background: {{fit.n.bg}}; color: {{fit.n.fg}}; border: 1px solid {{fit.n.bc}};">พอดีจอ (fit)</button>
+          </div>
+        </div>
+
+        <div style="margin-top: auto; display: flex; flex-direction: column; gap: 8px;">
+          <button class="btn" onClick="{{applyAll}}" style="padding: 10px 0; background: #24242f; color: #ececf2; border: 1px solid #32323f; border-radius: 7px; font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer;">ใช้ไฟล์นี้กับทุก scene</button>
+          <div style="font-size: 11px; color: #5c5c6e; line-height: 1.45;">
+            วิดีโอเล่นวนอัตโนมัติและปิดเสียงเสมอ — scene ที่ไม่มีพื้นหลังจะใช้สีพื้นจากแท็บ Theme
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+</div>
+</x-dc>
+
+<script data-dc-script data-props='{"accent":{"editor":"color","default":"#ffcc22","options":["#ffcc22","#7ee0c0","#ff7ab8","#8ea2ff"]},"$preview":{"width":1440,"height":920}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selected: 'gameplay',
+      dim: 25,
+      fit: 'cover',
+      // scene key -> stored file
+      files: {
+        gameplay: { file: 'gameplay.mp4', size: '18.4 MB', video: true, tint: 'linear-gradient(135deg, #1d3b5c, #47206b)' },
+        mappool: { file: 'mappool.mp4', size: '12.1 MB', video: true, tint: 'linear-gradient(135deg, #3d1f4f, #6b2038)' },
+        standby: { file: 'standby.png', size: '1.8 MB', video: false, tint: 'linear-gradient(135deg, #123a3a, #1c4f3a)' },
+      },
+    };
+  }
+
+  sceneList() {
+    return [
+    ['gameplay', 'Gameplay', 'ในเกม'],
+    ['mappool', 'Map Pool', 'เลือก/แบนแมพ'],
+    ['teamintro', 'Team Intro', 'แนะนำทีม'],
+    ['seeding', 'Seeding', 'ผลซีด'],
+    ['bracket', 'Bracket', 'สายแข่ง'],
+    ['schedule', 'Schedule', 'ตารางแข่ง'],
+    ['showcase', 'Showcase', 'โชว์แมพ'],
+    ['win', 'Winner', 'ผู้ชนะ'],
+    ['drawings', 'Drawings', 'จับสลาก'],
+    ['standby', 'Standby', 'รอ / พัก'],
+    ];
+  }
+
+  // Stand-in for the real file picker: gives the scene a plausible file so the
+  // flow (empty -> filled -> preview -> remove) can be walked through.
+  sample(key, prev) {
+    const tints = [
+      'linear-gradient(135deg, #1d3b5c, #47206b)',
+      'linear-gradient(135deg, #3d1f4f, #6b2038)',
+      'linear-gradient(135deg, #123a3a, #1c4f3a)',
+      'linear-gradient(135deg, #4a3410, #6b2f1a)',
+      'linear-gradient(135deg, #202a52, #123a4f)',
+    ];
+    const i = this.sceneList().findIndex((s) => s[0] === key);
+    const video = prev ? prev.video : true;
+    return {
+      file: key + (video ? '.mp4' : '.png'),
+      size: video ? '14.2 MB' : '1.8 MB',
+      video,
+      tint: tints[i % tints.length],
+    };
+  }
+
+  segment(on) {
+    const accent = this.props.accent ?? '#ffcc22';
+    return on
+      ? { bg: '#26221a', fg: accent, bc: accent }
+      : { bg: '#24242f', fg: '#8a8a9c', bc: '#32323f' };
+  }
+
+  renderVals() {
+    const accent = this.props.accent ?? '#ffcc22';
+    const { files, selected, dim, fit } = this.state;
+    const filled = Object.keys(files).length;
+    const BUDGET_MB = 400;
+    const usedMb = Object.keys(files).reduce((sum, k) => sum + parseFloat(files[k].size), 0);
+
+    const scenes = this.sceneList().map(([key, name, th]) => {
+      const f = files[key];
+      const active = selected === key;
+      return {
+        name, th,
+        empty: !f,
+        isVideo: !!(f && f.video),
+        file: f ? f.file + '  ·  ' + f.size : 'ยังไม่มีพื้นหลัง',
+        fileFg: f ? '#8a8a9c' : '#5c5c6e',
+        thumb: f ? f.tint : '#1a1a22',
+        thumbBorder: f ? 'transparent' : '#32323f',
+        bg: active ? '#24242f' : '#1a1a22',
+        bc: active ? accent : '#2a2a36',
+        addLabel: f ? 'เปลี่ยน' : 'เลือกไฟล์',
+        removeFg: f ? '#ff8a8a' : '#3a3a48',
+        select: () => this.setState({ selected: key }),
+        add: () => this.setState({ selected: key, files: { ...files, [key]: this.sample(key, f) } }),
+        remove: () => { const n = { ...files }; delete n[key]; this.setState({ files: n, selected: key }); },
+      };
+    });
+
+    const selFile = files[selected];
+    const selMeta = this.sceneList().find((s) => s[0] === selected);
+
+    return {
+      accent,
+      scenes,
+      filledCount: filled + ' / 10',
+      usedMb: usedMb.toFixed(1),
+      usedPct: Math.min(100, (usedMb / BUDGET_MB) * 100) + '%',
+      sel: {
+        name: selMeta ? selMeta[1] : '',
+        empty: !selFile,
+        file: selFile ? selFile.file : '—',
+        size: selFile ? selFile.size : '',
+        thumb: selFile ? selFile.tint : '#14141a',
+        bgSize: fit,
+        fitLabel: fit === 'cover' ? 'เต็มจอ' : 'พอดีจอ',
+      },
+      dim,
+      dimValue: String(dim / 100),
+      dimPct: dim + '%',
+      setDim: (e) => this.setState({ dim: Number(e.target.value) }),
+      fit: {
+        c: this.segment(fit === 'cover'), n: this.segment(fit === 'contain'),
+        cover: () => this.setState({ fit: 'cover' }),
+        contain: () => this.setState({ fit: 'contain' }),
+      },
+      dropAdd: () => this.setState({ files: { ...files, [selected]: this.sample(selected, selFile) } }),
+      clearAll: () => this.setState({ files: {} }),
+      applyAll: () => {
+        if (!selFile) return;
+        const n = {};
+        for (const [key] of this.sceneList()) n[key] = { ...selFile };
+        this.setState({ files: n });
+      },
+    };
+  }
+}
+</script>
+</body>
+</html>
